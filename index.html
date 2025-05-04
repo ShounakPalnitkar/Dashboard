@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CKD Risk Dashboard</title>
+    <link rel="stylesheet" href="/dashboard.css">
+    <!-- Chart.js for visualizations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Header Section -->
+        <header class="dashboard-header">
+            <h1><i class="fas fa-chart-line"></i> CKD Risk Dashboard</h1>
+            <div class="user-controls">
+                <button id="new-assessment">New Assessment</button>
+                <div class="user-profile">
+                    <span>User</span>
+                    <i class="fas fa-user-circle"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <div class="dashboard-content">
+            <!-- Sidebar Navigation -->
+            <aside class="sidebar">
+                <nav>
+                    <ul>
+                        <li class="active"><a href="#overview"><i class="fas fa-home"></i> Overview</a></li>
+                        <li><a href="#assessments"><i class="fas fa-clipboard-list"></i> Assessments</a></li>
+                        <li><a href="#trends"><i class="fas fa-chart-bar"></i> Trends</a></li>
+                        <li><a href="#recommendations"><i class="fas fa-heartbeat"></i> Recommendations</a></li>
+                        <li><a href="#settings"><i class="fas fa-cog"></i> Settings</a></li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <!-- Main Dashboard Panels -->
+            <main class="main-panels">
+                <!-- Risk Overview Panel -->
+                <section class="panel risk-overview">
+                    <h2><i class="fas fa-exclamation-triangle"></i> Risk Overview</h2>
+                    <div class="risk-summary">
+                        <div class="risk-score">
+                            <div class="gauge-container">
+                                <canvas id="riskGauge"></canvas>
+                                <div class="gauge-label">Your CKD Risk Score</div>
+                            </div>
+                        </div>
+                        <div class="risk-factors">
+                            <h3>Top Risk Factors</h3>
+                            <div class="factors-list" id="top-factors">
+                                <!-- Dynamically populated -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Assessment History Panel -->
+                <section class="panel assessment-history">
+                    <h2><i class="fas fa-history"></i> Assessment History</h2>
+                    <div class="history-chart">
+                        <canvas id="historyChart"></canvas>
+                    </div>
+                </section>
+
+                <!-- Detailed Risk Breakdown -->
+                <section class="panel risk-breakdown">
+                    <h2><i class="fas fa-chart-pie"></i> Risk Breakdown</h2>
+                    <div class="breakdown-grid">
+                        <div class="breakdown-chart">
+                            <canvas id="breakdownChart"></canvas>
+                        </div>
+                        <div class="breakdown-legend">
+                            <h3>Risk Factor Contributions</h3>
+                            <ul id="factor-legend">
+                                <!-- Dynamically populated -->
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Recommendations Panel -->
+                <section class="panel recommendations">
+                    <h2><i class="fas fa-clipboard-check"></i> Recommendations</h2>
+                    <div class="recommendations-list" id="recommendations-list">
+                        <!-- Dynamically populated -->
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="/dashboard.js"></script>
+</body>
+</html>
