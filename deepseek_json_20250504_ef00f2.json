@@ -1,0 +1,640 @@
+{
+  "dashboard": {
+    "metadata": {
+      "title": "Chronic Kidney Disease Prediction Tool",
+      "description": "A tool to assess risk factors for chronic kidney disease (CKD) and provide personalized recommendations.",
+      "version": "1.0",
+      "created": "2023-11-15",
+      "security": {
+        "encryption": "AES-256",
+        "data_collection": "Minimal personal identifiers",
+        "compliance": "HIPAA-inspired standards"
+      }
+    },
+    "color_scheme": {
+      "primary": "#1a6fc9",
+      "primary_dark": "#145da0",
+      "secondary": "#27ae60",
+      "warning": "#f39c12",
+      "danger": "#e74c3c",
+      "security": "#8e44ad"
+    },
+    "sections": [
+      {
+        "id": "welcome-screen",
+        "title": "Welcome to Chronic Kidney Disease Prediction Assessment",
+        "components": [
+          {
+            "type": "text",
+            "content": "This tool will help you understand your risk factors for chronic kidney disease (CKD) and provide personalized recommendations."
+          },
+          {
+            "type": "quote",
+            "content": "Nurture yourself mentally and physically by caring for your kidneys consistently."
+          },
+          {
+            "type": "info_box",
+            "title": "Before You Begin",
+            "content": [
+              "This assessment will ask about your medical history, family history, and lifestyle factors that may affect kidney health.",
+              "Have your health information ready, including any known conditions like diabetes or high blood pressure."
+            ]
+          },
+          {
+            "type": "privacy_section",
+            "title": "Data Security & Privacy",
+            "features": [
+              "End-to-end encryption - All data is encrypted in transit and at rest",
+              "No personal identifiers - We don't store your name, address, or other direct identifiers",
+              "User-controlled sharing - You decide what information to share with healthcare providers"
+            ],
+            "encryption_status": "All data transmissions are secured with AES-256 encryption"
+          },
+          {
+            "type": "button",
+            "id": "start-assessment-btn",
+            "label": "Begin Assessment"
+          }
+        ]
+      },
+      {
+        "id": "assessment-form",
+        "title": "Patient Information",
+        "form_fields": {
+          "demographics": [
+            {
+              "id": "age",
+              "label": "Age (years)",
+              "type": "number",
+              "min": 18,
+              "max": 120,
+              "required": true
+            },
+            {
+              "id": "sex",
+              "label": "Sex",
+              "type": "select",
+              "options": [
+                {"value": "", "label": "Select..."},
+                {"value": "male", "label": "Male"},
+                {"value": "female", "label": "Female"}
+              ],
+              "required": true
+            },
+            {
+              "id": "race",
+              "label": "Race/Ethnicity",
+              "type": "select",
+              "options": [
+                {"value": "", "label": "Select..."},
+                {"value": "white", "label": "White/Caucasian"},
+                {"value": "black", "label": "Black/African American"},
+                {"value": "hispanic", "label": "Hispanic/Latino"},
+                {"value": "asian", "label": "Asian"},
+                {"value": "native", "label": "Native American"},
+                {"value": "other", "label": "Other"}
+              ],
+              "required": true
+            }
+          ],
+          "medical_history": [
+            {
+              "id": "hypertension",
+              "label": "Do you have hypertension (high blood pressure)?",
+              "type": "select",
+              "options": [
+                {"value": "", "label": "Select..."},
+                {"value": "no", "label": "No"},
+                {"value": "yes", "label": "Yes"},
+                {"value": "borderline", "label": "Borderline/Prehypertension"}
+              ],
+              "required": true
+            },
+            {
+              "id": "diabetes",
+              "label": "Do you have diabetes?",
+              "type": "select",
+              "options": [
+                {"value": "", "label": "Select..."},
+                {"value": "no", "label": "No"},
+                {"value": "type2", "label": "Type 2 Diabetes"},
+                {"value": "type1", "label": "Type 1 Diabetes"},
+                {"value": "prediabetes", "label": "Prediabetes"}
+              ],
+              "required": true
+            },
+            {
+              "id": "duration",
+              "label": "If diabetic, how many years since diagnosis?",
+              "type": "number",
+              "min": 0,
+              "max": 100,
+              "default": 0,
+              "disabled": true
+            },
+            {
+              "id": "family_history",
+              "label": "Family history of kidney disease?",
+              "type": "select",
+              "options": [
+                {"value": "", "label": "Select..."},
+                {"value": "no", "label": "No"},
+                {"value": "parents", "label": "Yes (parents)"},
+                {"value": "siblings", "label": "Yes (siblings)"},
+                {"value": "both", "label": "Yes (parents and siblings)"}
+              ],
+              "required": true
+            },
+            {
+              "id": "family-diseases-container",
+              "type": "conditional",
+              "fields": [
+                {
+                  "label": "If family history, what conditions? (Select all that apply)",
+                  "type": "checkbox_group",
+                  "options": [
+                    {"value": "ckd", "label": "Chronic Kidney Disease"},
+                    {"value": "diabetes", "label": "Diabetes"},
+                    {"value": "hypertension", "label": "Hypertension"},
+                    {"value": "heart", "label": "Heart Disease"}
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "bmi",
+              "label": "Body Mass Index (BMI)",
+              "type": "number",
+              "min": 15,
+              "max": 60,
+              "step": 0.1,
+              "required": true
+            },
+            {
+              "id": "smoking",
+              "label": "Smoking status",
+              "type": "select",
+              "options": [
+                {"value": "", "label": "Select..."},
+                {"value": "never", "label": "Never smoked"},
+                {"value": "former", "label": "Former smoker"},
+                {"value": "current", "label": "Current smoker"}
+              ],
+              "required": true
+            },
+            {
+              "id": "cardiovascular",
+              "label": "History of cardiovascular disease?",
+              "type": "select",
+              "options": [
+                {"value": "", "label": "Select..."},
+                {"value": "no", "label": "No"},
+                {"value": "yes", "label": "Yes"}
+              ],
+              "required": true
+            }
+          ],
+          "symptoms": {
+            "label": "Symptoms (Check all that apply)",
+            "type": "checkbox_group",
+            "options": [
+              {"value": "fatigue", "label": "Fatigue or weakness"},
+              {"value": "swelling", "label": "Swelling in feet/ankles"},
+              {"value": "shortness", "label": "Shortness of breath"},
+              {"value": "appetite", "label": "Poor appetite"},
+              {"value": "sleep", "label": "Trouble sleeping"},
+              {"value": "urination", "label": "Changes in urination"},
+              {"value": "nausea", "label": "Nausea or vomiting"},
+              {"value": "pain", "label": "Kidney area pain"},
+              {"value": "itchy", "label": "Itchy skin"},
+              {"value": "muscle", "label": "Muscle cramps"}
+            ]
+          },
+          "data_sharing": {
+            "title": "Data Sharing Preferences",
+            "description": "Control which parts of your health data can be shared with healthcare providers:",
+            "options": [
+              {
+                "id": "share-results",
+                "label": "Share my risk assessment results",
+                "default": true
+              },
+              {
+                "id": "share-history",
+                "label": "Share my medical history",
+                "default": true
+              },
+              {
+                "id": "share-symptoms",
+                "label": "Share my symptoms",
+                "default": true
+              },
+              {
+                "id": "share-demographics",
+                "label": "Share my demographic information",
+                "default": false
+              }
+            ]
+          },
+          "submit_button": {
+            "label": "Calculate My CKD Risk"
+          }
+        }
+      },
+      {
+        "id": "result",
+        "title": "Your CKD Risk Assessment Results",
+        "components": [
+          {
+            "id": "risk-message",
+            "type": "risk_summary",
+            "fields": [
+              {"label": "Risk Score", "key": "riskScore"},
+              {"label": "Risk Level", "key": "riskLevel"},
+              {"label": "5-Year Risk Probability", "key": "riskPercentage"}
+            ]
+          },
+          {
+            "id": "risk-explanation",
+            "type": "risk_factors",
+            "title": "Key Risk Factors Identified:"
+          },
+          {
+            "id": "advice",
+            "type": "recommendations",
+            "title": "Recommendations:"
+          },
+          {
+            "type": "info_box",
+            "title": "Understanding Your Results",
+            "content": [
+              "This assessment is based on established risk factors for chronic kidney disease including age, diabetes, hypertension, family history, and other clinical factors.",
+              "Note: This tool cannot diagnose CKD. Only blood tests (eGFR) and urine tests (ACR) can confirm kidney disease."
+            ]
+          },
+          {
+            "type": "privacy_section",
+            "title": "Your Data Privacy",
+            "options": [
+              {"id": "view-data-btn", "label": "View all data we've collected"},
+              {"id": "delete-data-btn", "label": "Request deletion of your data"},
+              {"id": "privacy-policy-btn", "label": "Read our full privacy policy"}
+            ]
+          },
+          {
+            "type": "button",
+            "id": "reset-btn",
+            "label": "Start New Assessment"
+          }
+        ]
+      },
+      {
+        "id": "visualizations",
+        "title": "Your Risk Visualizations",
+        "components": [
+          {
+            "type": "chart_grid",
+            "layout": "2x2",
+            "charts": [
+              {
+                "id": "factorsChart",
+                "title": "Top Risk Factors",
+                "type": "pie",
+                "data_source": "riskFactors",
+                "legend_id": "factors-legend"
+              },
+              {
+                "id": "barChart",
+                "title": "Risk Score by Category",
+                "type": "bar",
+                "data_source": "riskFactorsByCategory",
+                "legend_id": "bar-chart-legend"
+              },
+              {
+                "id": "probabilityChart",
+                "title": "5-Year CKD Risk Probability",
+                "type": "doughnut",
+                "data_source": "riskProbability"
+              },
+              {
+                "id": "radarChart",
+                "title": "Risk Category Comparison",
+                "type": "radar",
+                "data_source": "riskFactorsByCategory"
+              }
+            ]
+          },
+          {
+            "type": "risk_table",
+            "title": "Detailed Risk Factors",
+            "columns": [
+              {"header": "Risk Factor", "key": "name"},
+              {"header": "Points", "key": "points"},
+              {"header": "Percentage", "key": "percentage"},
+              {"header": "Doctor Recommendation", "key": "recommendation"}
+            ]
+          },
+          {
+            "id": "urgent-warning-container",
+            "type": "conditional",
+            "condition": "urgentWarning",
+            "component": {
+              "type": "warning_box",
+              "title": "⚠️ Urgent Medical Attention Recommended",
+              "content": [
+                "Based on your risk factors and symptoms, we strongly recommend you consult with a healthcare provider as soon as possible.",
+                "Your combination of risk points suggests you may need immediate evaluation.",
+                "Please contact your primary care physician or a nephrologist (kidney specialist) to discuss your symptoms and risk factors."
+              ]
+            }
+          },
+          {
+            "type": "recommendations_section",
+            "title": "Personalized Recommendations",
+            "sections": [
+              {
+                "type": "ckd_stages",
+                "title": "CKD Stages Explained",
+                "stages": [
+                  {
+                    "name": "Stage 1 (Normal or High GFR ≥90)",
+                    "description": "Kidney function is normal but there are signs of kidney damage (e.g., protein in urine).",
+                    "color": "#1abc9c"
+                  },
+                  {
+                    "name": "Stage 2 (Mild CKD, GFR 60-89)",
+                    "description": "Slight loss of kidney function; usually no symptoms but damage continues silently.",
+                    "color": "#27ae60"
+                  },
+                  {
+                    "name": "Stage 3 (Moderate CKD, GFR 30-59)",
+                    "description": "Kidney function is moderately reduced; fatigue, swelling, and changes in urination may occur.",
+                    "color": "#f1c40f"
+                  },
+                  {
+                    "name": "Stage 4 (Severe CKD, GFR 15-29)",
+                    "description": "Severe decline in kidney function; symptoms become more noticeable, need to prepare for dialysis or transplant.",
+                    "color": "#e67e22"
+                  },
+                  {
+                    "name": "Stage 5 (Kidney Failure, GFR <15)",
+                    "description": "Kidneys have lost nearly all function; dialysis or transplant required to survive.",
+                    "color": "#c0392b"
+                  }
+                ]
+              },
+              {
+                "type": "general_recommendations",
+                "title": "General Recommendations",
+                "items": [
+                  "Discuss kidney health with your doctor",
+                  "Monitor and control blood pressure",
+                  "Manage diabetes if applicable",
+                  "Maintain healthy lifestyle with exercise",
+                  "Consider annual kidney screening",
+                  "Avoid NSAID pain medications"
+                ]
+              }
+            ]
+          },
+          {
+            "type": "download_buttons",
+            "buttons": [
+              {
+                "id": "download-image",
+                "label": "Download as Image",
+                "icon": null
+              },
+              {
+                "id": "download-text",
+                "label": "Download Text Report",
+                "icon": null
+              },
+              {
+                "id": "share-results-btn",
+                "label": "Share Results",
+                "icon": "share-alt"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "footer",
+        "content": [
+          "Disclaimer: This tool is for informational purposes only and is not a substitute for professional medical advice, diagnosis, or treatment. Always seek the advice of your physician or other qualified health provider with any questions you may have regarding a medical condition.",
+          "Based on clinical guidelines from the National Kidney Foundation and KDIGO."
+        ],
+        "links": [
+          {"id": "footer-privacy-link", "label": "Privacy Policy"},
+          {"id": "footer-terms-link", "label": "Terms of Service"},
+          {"id": "footer-contact-link", "label": "Contact Us"}
+        ]
+      },
+      {
+        "type": "chatbot",
+        "position": "fixed-bottom-right",
+        "iframe_src": "https://agent.jotform.com/0195bf7a139274149d20a98efdf483b08976",
+        "toggle_button": "💬"
+      },
+      {
+        "type": "modal",
+        "id": "privacy-modal",
+        "title": "Privacy Policy",
+        "sections": [
+          {
+            "title": "Data Collection and Use",
+            "content": [
+              "We collect only the health information necessary to provide you with an accurate chronic kidney disease risk assessment. This includes:",
+              {
+                "type": "list",
+                "items": [
+                  "Demographic information (age, sex, race/ethnicity)",
+                  "Medical history (hypertension, diabetes, cardiovascular disease)",
+                  "Family medical history",
+                  "Lifestyle factors (BMI, smoking status)",
+                  "Symptoms you report"
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Data Security",
+            "content": [
+              "All data is protected with:",
+              {
+                "type": "list",
+                "items": [
+                  "End-to-end encryption: Data is encrypted both in transit (using TLS 1.2+) and at rest (AES-256 encryption)",
+                  "Minimal data collection: We don't collect personally identifiable information like names, addresses, or contact details",
+                  "Secure storage: Data is stored in HIPAA-compliant servers with strict access controls"
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Data Sharing",
+            "content": [
+              "Your data will never be sold to third parties. Limited sharing may occur:",
+              {
+                "type": "list",
+                "items": [
+                  "With healthcare providers you explicitly authorize",
+                  "For research purposes (only in anonymized, aggregated form)",
+                  "When required by law (with appropriate legal process)"
+                ]
+              }
+            ]
+          },
+          {
+            "title": "Your Rights",
+            "content": [
+              "You have the right to:",
+              {
+                "type": "list",
+                "items": [
+                  "Access all data we've collected about you",
+                  "Request correction of inaccurate data",
+                  "Request deletion of your data",
+                  "Download your data in a portable format",
+                  "Control what information is shared with providers"
+                ]
+              }
+            ]
+          }
+        ],
+        "buttons": [
+          {
+            "id": "close-privacy-modal",
+            "type": "close",
+            "position": "top-right"
+          },
+          {
+            "id": "close-privacy-modal-bottom",
+            "type": "close",
+            "position": "bottom",
+            "label": "Close"
+          }
+        ]
+      }
+    ],
+    "risk_calculation": {
+      "factors": [
+        {
+          "name": "Age",
+          "points": [
+            {"range": "40-49", "value": 1},
+            {"range": "50-59", "value": 2},
+            {"range": "60+", "value": 3}
+          ],
+          "max": 3,
+          "category": "Demographics"
+        },
+        {
+          "name": "Race",
+          "points": [
+            {"value": "black", "score": 1}
+          ],
+          "max": 1,
+          "category": "Demographics"
+        },
+        {
+          "name": "Hypertension",
+          "points": [
+            {"value": "borderline", "score": 1},
+            {"value": "yes", "score": 2}
+          ],
+          "max": 2,
+          "category": "Medical Conditions"
+        },
+        {
+          "name": "Diabetes",
+          "points": [
+            {"value": "prediabetes", "score": 1},
+            {"value": "type2", "score": 3},
+            {"value": "type1", "score": 4}
+          ],
+          "max": 4,
+          "category": "Medical Conditions"
+        },
+        {
+          "name": "Diabetes Duration",
+          "points": [
+            {"range": "5-9", "value": 1},
+            {"range": "10+", "value": 2}
+          ],
+          "max": 2,
+          "category": "Medical Conditions"
+        },
+        {
+          "name": "Family History",
+          "points": [
+            {"value": "parents/siblings", "score": 1},
+            {"value": "both", "score": 2}
+          ],
+          "max": 2,
+          "category": "Family History"
+        },
+        {
+          "name": "BMI",
+          "points": [
+            {"range": "30+", "value": 1}
+          ],
+          "max": 1,
+          "category": "Lifestyle"
+        },
+        {
+          "name": "Smoking",
+          "points": [
+            {"value": "current", "score": 1}
+          ],
+          "max": 1,
+          "category": "Lifestyle"
+        },
+        {
+          "name": "Cardiovascular Disease",
+          "points": [
+            {"value": "yes", "score": 1}
+          ],
+          "max": 1,
+          "category": "Medical Conditions"
+        },
+        {
+          "name": "Symptoms",
+          "points": [
+            {"range": "1-2", "value": 1},
+            {"range": "3+", "value": 2}
+          ],
+          "max": 2,
+          "category": "Symptoms"
+        }
+      ],
+      "risk_levels": [
+        {
+          "name": "low",
+          "range": "0-5",
+          "probability": "<5%",
+          "color": "#27ae60"
+        },
+        {
+          "name": "moderate",
+          "range": "6-9",
+          "probability": "5-20%",
+          "color": "#f39c12"
+        },
+        {
+          "name": "high",
+          "range": "10+",
+          "probability": "20-50%",
+          "color": "#e74c3c"
+        }
+      ]
+    },
+    "dependencies": {
+      "charts": "Chart.js",
+      "html2canvas": "html2canvas",
+      "chart_plugins": "chartjs-plugin-datalabels",
+      "icons": "Font Awesome"
+    }
+  }
+}
